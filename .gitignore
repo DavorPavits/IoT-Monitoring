@@ -1,0 +1,68 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Visual Studio 2017+
+Generated\ Files/
+.vs/
+
+# Rider
+.idea/
+*.sln.iml
+
+# Visual Studio for Mac
+.vscode/
+*.pidb
+*.userprefs
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+TestResults/
+
+# Build artifacts
+*.build/
+*.cache/
+*.msbuild*
+*.log
+*.tlog
+
+# Package directories
+packages/
+*.nupkg
+*.s*
