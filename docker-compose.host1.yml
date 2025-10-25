@@ -1,0 +1,25 @@
+services:
+  mqtt-server:
+    build:
+      context: ./MqttServer
+      dockerfile: Dockerfile
+    container_name: mqtt-server-host1
+    hostname: mqtt-host1
+    ports:
+      - "1883:1883"
+    volumes:
+      # Mount a volume for state persistence
+      - mqtt-state-host1:/app
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+    networks:
+      - mqtt-network-host1
+
+volumes:
+  mqtt-state-host1:
+    name: mqtt-state-host1
+
+networks:
+  mqtt-network-host1:
+    name: mqtt-network-host1
+    driver: bridge

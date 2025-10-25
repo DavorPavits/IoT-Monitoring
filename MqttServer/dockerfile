@@ -1,0 +1,26 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+
+# Copy csproj and restore dependencies
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy source code
+COPY . ./
+
+# Build and publish
+RUN dotnet publish -c Release -o /app/publish
+
+# Runtime image
+
+FROM mcr.microsoft.com/dotnet/runtime:9.0
+WORKDIR /app
+
+# Copy published application
+COPY --from=build /app/publish .
+
+# Expose MQTT port
+EXPOSE 1883
+
+# Run the application
+ENTRYPOINT ["dotnet", "MqttServer.dll"]
