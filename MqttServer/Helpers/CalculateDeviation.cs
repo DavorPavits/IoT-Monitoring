@@ -3,7 +3,7 @@ public class CalculateDeviation
     
     public AlertMessage GenerateAlert(List<double> temps)
     {
-        if (temps == null || temps.Count < 2)
+        if (temps == null || temps.Count < 10)
         {
             return null;
         }

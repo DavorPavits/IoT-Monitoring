@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Net.Mime;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 using System.Windows.Markup;
@@ -29,17 +30,30 @@ public class StatefulMqqtServer
     public async Task StartAsync(int port = 1883)
     {
         //Load existing state if exists
-        _brokerState = BrokerState.Load("state.json");
-
-        if (_brokerState != null)
+        try
         {
-
-            Console.WriteLine("State is loading");
-            //Restore client states from persisted broker state
-            foreach (var kvp in _brokerState.Clients)
+            var loadedState = BrokerState.Load("data/state.json");
+            if(loadedState != null && loadedState.Clients.Count > 0)
             {
-                _clientStates[kvp.Key] = kvp.Value;
+                Console.WriteLine("State loaded successfully");
+                _brokerState = loadedState;
+
+                //Restore client states from persisted broker state
+                foreach (var kvp in _brokerState.Clients)
+                {
+                    _clientStates[kvp.Key] = kvp.Value;
+                    Console.WriteLine($"Restored client {kvp.Key}");
+                }
             }
+            else
+            {
+                Console.WriteLine("No state was loaded - No state found");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: Failed to load state: {ex.Message}");
+            Console.WriteLine("Starting with fresh state");
         }
         //Create a MQTT client factory
         var factory = new MqttFactory();
@@ -77,7 +91,7 @@ public class StatefulMqqtServer
             existingState.DisconnectedAt = null;
 
             _brokerState.Clients[clientId] = existingState;
-            Console.WriteLine($"Client {clientId} reconnected ");
+            Console.WriteLine($"Client {clientId} reconnected.\nPrevious stats : \n{existingState.MessagesSent},\n{existingState.MessagesReceived} ");
 
         }
         else
@@ -112,7 +126,7 @@ public class StatefulMqqtServer
         {
             state.DisconnectedAt = DateTime.UtcNow;
             _brokerState.Clients[clientId] = state;
-            _clientStates.TryRemove(clientId, out ClientState removed);
+            //_clientStates.TryRemove(clientId, out ClientState removed);
             Console.WriteLine($"Client disconnected: {clientId} @ {state.DisconnectedAt}");
 
         }

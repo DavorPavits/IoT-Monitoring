@@ -38,7 +38,7 @@ Write-Host "[Step 4/8] Extracting state from Host1..." -ForegroundColor Yellow
 $statePath = "$TEMP_DIR\$STATE_FILE"
 
 # Try to copy state file
-docker cp "${HOST1_CONTAINER}:/app/${STATE_FILE}" $statePath 2>$null
+docker cp "${HOST1_CONTAINER}:/app/data/${STATE_FILE}" $statePath 2>$null
 
 if (Test-Path $statePath) {
     Write-Host "  [OK] State file extracted successfully" -ForegroundColor Green
@@ -52,23 +52,24 @@ if (Test-Path $statePath) {
 }
 
 Write-Host "`n[Step 5/8] Building Host2 (Target)..." -ForegroundColor Yellow
-docker-compose -f docker-compose.host2.yml up -d --build
+docker-compose -f docker-compose.host2.yml up --no-start
 
-Write-Host "[Step 6/8] Waiting for Host2 to start..." -ForegroundColor Yellow
-Start-Sleep -Seconds 3
-
-Write-Host "[Step 7/8] Transferring state to Host2..." -ForegroundColor Yellow
+Write-Host "[Step 6/8] Transferring state to Host2..." -ForegroundColor Yellow
 if (Test-Path $statePath) {
     docker cp $statePath "${HOST2_CONTAINER}:/app/${STATE_FILE}"
     Write-Host "  [OK] State transferred to Host2" -ForegroundColor Green
-    
-    # Restart to ensure state is loaded
-    docker restart $HOST2_CONTAINER | Out-Null
-    Start-Sleep -Seconds 2
+}else{
+    Write-Host "[WARNING] No state file to transfer" -ForegroundColor Yellow
 }
 
+Write-Host "[Step 7/8] Starting Host2 (will load the transferred state)..." -ForegroundColor Yellow
+docker start $HOST2_CONTAINER
+Start-Sleep -Seconds 3
+
 Write-Host "[Step 8/8] Stopping Host1..." -ForegroundColor Yellow
-docker stop $HOST1_CONTAINER | Out-Null
+# Unpause first in case it's still paused
+docker unpause $HOST1_CONTAINER 2>$null
+docker stop $HOST1_CONTAINER 2>$null
 
 Write-Host "`n========================================" -ForegroundColor Green
 Write-Host "  MIGRATION COMPLETE!" -ForegroundColor Green
