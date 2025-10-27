@@ -33,7 +33,7 @@ public class StatefulMqqtServer
         try
         {
             var loadedState = BrokerState.Load("data/state.json");
-            if(loadedState != null && loadedState.Clients.Count > 0)
+            if (loadedState != null && loadedState.Clients.Count > 0)
             {
                 Console.WriteLine("State loaded successfully");
                 _brokerState = loadedState;
@@ -81,6 +81,8 @@ public class StatefulMqqtServer
 
 
     }
+    
+    //TODO: Change Locks to snapshot pattern
     private Task OnClientConnected(ClientConnectedEventArgs args)
     {
         var clientId = args.ClientId;
