@@ -1,0 +1,39 @@
+{
+  "Logs": {
+    "Client-001": {
+      "ClientId": "Client-001",
+      "DisconnectedAt": "2025-10-28T15:25:40.7382727Z",
+      "RecconectedAt": "2025-10-28T15:25:48.5025314Z",
+      "DowntimeSeconds": 7.7642587,
+      "Attempts": 2
+    },
+    "Client-004": {
+      "ClientId": "Client-004",
+      "DisconnectedAt": "2025-10-28T15:25:40.7380178Z",
+      "RecconectedAt": "2025-10-28T15:25:48.6264431Z",
+      "DowntimeSeconds": 7.8884253,
+      "Attempts": 2
+    },
+    "Client-005": {
+      "ClientId": "Client-005",
+      "DisconnectedAt": "2025-10-28T15:25:40.7378482Z",
+      "RecconectedAt": "2025-10-28T15:25:48.6520517Z",
+      "DowntimeSeconds": 7.9142035,
+      "Attempts": 2
+    },
+    "Client-003": {
+      "ClientId": "Client-003",
+      "DisconnectedAt": "2025-10-28T15:25:40.7381493Z",
+      "RecconectedAt": "2025-10-28T15:25:48.5022771Z",
+      "DowntimeSeconds": 7.7641278,
+      "Attempts": 2
+    },
+    "Client-002": {
+      "ClientId": "Client-002",
+      "DisconnectedAt": "2025-10-28T15:25:40.7383944Z",
+      "RecconectedAt": "2025-10-28T15:25:48.5019667Z",
+      "DowntimeSeconds": 7.7635723,
+      "Attempts": 2
+    }
+  }
+}

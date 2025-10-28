@@ -93,7 +93,7 @@ public class StatefulMqttClient
             {
                 try
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(2));
+                    await Task.Delay(TimeSpan.FromSeconds(1));
                     if (!_client.IsConnected && !_isReconnecting)
                     {
                         _isReconnecting = true;
@@ -172,7 +172,7 @@ public class StatefulMqttClient
             {
                 Console.WriteLine($"Failed on port {currPort}: {ex.Message}");
 
-                if (attemp % 3 == 0)
+                if (attemp % 2 == 0)
                 {
                     _currentPortIndex = (_currentPortIndex + 1) % _port.Length;
                     Console.WriteLine($"Switching to port {_port[_currentPortIndex]}");
@@ -230,7 +230,7 @@ public class StatefulMqttClient
                 if (!_client.IsConnected)
                 {
                     Console.WriteLine($"{ClientId} Not connected!");
-                    await Task.Delay(1000, ct);
+                    await Task.Delay(100, ct);
                     continue;
                 }
                 var spikes = rand.NextDouble() < 0.95 ? (rand.NextDouble() - 0.5) * 10 : (rand.NextDouble() - 0.5) * 20;
